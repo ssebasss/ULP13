@@ -4,13 +4,10 @@
  */
 package new13;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import javax.swing.JOptionPane;
 
 
@@ -36,20 +33,23 @@ public class New13 {
             
             
            //----------------------------Aca abajo incluir la lista de materias----------//
-            List<Materia> materias= new ArrayList<>();
-            materias.add(new Materia("Laboratorio I", 2023, true));
-            materias.add(new Materia("Eda", 2023, true));
-            materias.add(new Materia("Programacion Web I", 2023, true));
-            materias.add(new Materia("Matematica I", 2023, true));
+            
+           
            
            //---------------------------Aca abajo Incluir la lista de inscripciones----------------//
            
            
            
            //--------------------------Aca incluimos los INSERT-----------------//
-           
-           String sql="INSERT INTO `alumno`(`dni`, `apellido`, `nombre`, `fechaNacimiento`, `estado`)"
+           String sqlAlumno="INSERT INTO `alumno`(`dni`, `apellido`, `nombre`, `fechaNacimiento`, `estado`)"
                     + "VALUES (?,?,?,?,?)";
+           
+           PreparedStatement psAlumno = con.prepareStatement(sqlAlumno);
+           for(Alumno alumno : alumnos){
+               psAlumno.
+           }
+           
+           
             //insert,update, delete usamos: excecuteUpdate
             int filas = ps.executeUpdate();
             if(filas>0){
