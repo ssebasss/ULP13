@@ -19,12 +19,14 @@ public class New13 {
 
     public static void main(String[] args) {
       try{
+            //Cargar el Service Connector primero
             Class.forName("org.mariadb.jdbc.Driver");
             String URL= "jdbc:mariadb://localhost:3306/tp13_ulp";
             String USUARIO="root";
             String PASSWORD ="";
             Connection con=DriverManager.getConnection(URL,USUARIO,PASSWORD);
             
+            //Creamos una lista para recorrer despues en el for
             List<Alumno> alumnos = new ArrayList<>();
             alumnos.add(new Alumno(46333465, "Aguero", "Juliana", LocalDate.of(2000, Month.MARCH, 17), true));
             alumnos.add(new Alumno(35767572, "Peñiñorey","Alan",LocalDate.of(1991,Month.MARCH,25),true));
@@ -44,17 +46,21 @@ public class New13 {
            String sqlAlumno="INSERT INTO `alumno`(`dni`, `apellido`, `nombre`, `fechaNacimiento`, `estado`)"
                     + "VALUES (?,?,?,?,?)";
            
+           //esto funciona con el driver, primero el javaClient
            PreparedStatement psAlumno = con.prepareStatement(sqlAlumno);
-           for(Alumno alumno : alumnos){
-               psAlumno.
-           }
-           
-           
-            //insert,update, delete usamos: excecuteUpdate
-            int filas = ps.executeUpdate();
-            if(filas>0){
-                JOptionPane.showMessageDialog(null, "Alumno agregado");
+           for (Alumno alumno : alumnos) {
+                psAlumno.setInt(1, alumno.getDni());
+                psAlumno.setString(2, alumno.getApellido());
+                psAlumno.setString(3, alumno.getNombre());
+                psAlumno.setDate(4, java.sql.Date.valueOf(alumno.getFechaNacimiento()));
+                psAlumno.setBoolean(5, alumno.getEstado());
+                
+                int filas = psAlumno.executeUpdate();
+                if(filas>0){
+                    JOptionPane.showMessageDialog(null, "Alumno " + alumno.getApellido()+ " agregado");
+                }
             }
+            
         }catch(ClassNotFoundException cnf){
             JOptionPane.showMessageDialog(null, "Error al cargar driver");
         }catch(SQLException sql){
