@@ -35,7 +35,11 @@ public class New13 {
             
             
            //----------------------------Aca abajo incluir la lista de materias----------//
-            
+            List<Materia> materias= new ArrayList<>();
+            materias.add(new Materia("Laboratorio I", 2023, true));
+            materias.add(new Materia("Eda", 2023, true));
+            materias.add(new Materia("Programacion Web I", 2023, true));
+            materias.add(new Materia("Matematica I", 2023, true));
            
            
            //---------------------------Aca abajo Incluir la lista de inscripciones----------------//
