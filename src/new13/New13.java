@@ -4,13 +4,15 @@
  */
 package new13;
 
-import javax.swing.JOptionPane;
-import org.mariadb.jdbc.Driver;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.sql.Connection;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -18,39 +20,52 @@ import java.sql.Connection;
  */
 public class New13 {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
-        
-        
-        
-        try{          
-            // cargar driver
+      try{
             Class.forName("org.mariadb.jdbc.Driver");
-            System.out.println("cargó MI CIELAAAAA");
+            String URL= "jdbc:mariadb://localhost:3306/tp13_ulp";
+            String USUARIO="root";
+            String PASSWORD ="";
+            Connection con=DriverManager.getConnection(URL,USUARIO,PASSWORD);
+            
+            List<Alumno> alumnos = new ArrayList<>();
+            alumnos.add(new Alumno(46333465, "Aguero", "Juliana", LocalDate.of(2000, Month.MARCH, 17), true));
+            alumnos.add(new Alumno(35767572, "Peñiñorey","Alan",LocalDate.of(1991,Month.MARCH,25),true));
+            alumnos.add(new Alumno(12345678, "Cardona", "Mateo", LocalDate.of(1999, Month.APRIL, 5), true));
+            alumnos.add(new Alumno(98765432, "Castro", "Sebastian", LocalDate.of(1998, Month.JUNE, 7), true));
             
             
-            //conectar BD
-           Connection conexion = DriverManager.getConnection("jdbc:mariadb://localhost:3308/tp13_ulp", "root", "");
-                     
-            
-            
+           //----------------------------Aca abajo incluir la lista de materias----------//
+            List<Materia> materias= new ArrayList<>();
+            materias.add(new Materia("Laboratorio I", 2023, true));
+            materias.add(new Materia("Eda", 2023, true));
+            materias.add(new Materia("Programacion Web I", 2023, true));
+            materias.add(new Materia("Matematica I", 2023, true));
+           
+           //---------------------------Aca abajo Incluir la lista de inscripciones----------------//
+           
+           
+           
+           //--------------------------Aca incluimos los INSERT-----------------//
+           
+           String sql="INSERT INTO `alumno`(`dni`, `apellido`, `nombre`, `fechaNacimiento`, `estado`)"
+                    + "VALUES (?,?,?,?,?)";
+            //insert,update, delete usamos: excecuteUpdate
+            int filas = ps.executeUpdate();
+            if(filas>0){
+                JOptionPane.showMessageDialog(null, "Alumno agregado");
+            }
         }catch(ClassNotFoundException cnf){
-            JOptionPane.showMessageDialog(null,"Error al cargar driver");
-            
-            
-        } catch (SQLException ex) {
-           JOptionPane.showMessageDialog(null,"Error al conectar BD");
+            JOptionPane.showMessageDialog(null, "Error al cargar driver");
+        }catch(SQLException sql){
+            System.out.println(sql.getErrorCode());
+            if(sql.getErrorCode() == 1062){
+                JOptionPane.showMessageDialog(null, "Ya exite un alumno con ese DNI");
+            }else if(sql.getErrorCode() ==1049){
+                JOptionPane.showMessageDialog(null, "La base de datos ya existe");
+            }else
+            JOptionPane.showMessageDialog(null,"Error al cargar el db");
         }
-        
-        
-        
-        
-        
-        
-        
     }
     
 }
