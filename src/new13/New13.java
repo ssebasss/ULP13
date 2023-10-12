@@ -43,7 +43,15 @@ public class New13 {
            
            
            //---------------------------Aca abajo Incluir la lista de inscripciones----------------//
-           
+           List<Inscripcion> inscripciones = new ArrayList<>();
+           inscripciones.add(new Inscripcion(7, 46333465, 1));
+           inscripciones.add(new Inscripcion(9, 46333465, 2));//juliana
+           inscripciones.add(new Inscripcion(5, 35767572, 2));
+           inscripciones.add(new Inscripcion(7, 35767572,3));//alan
+           inscripciones.add(new Inscripcion(8, 98765432, 3));
+           inscripciones.add(new Inscripcion(9, 98765432, 1));//seba
+           inscripciones.add(new Inscripcion(7, 12345678, 4));
+           inscripciones.add(new Inscripcion(8, 12345678, 1));//silver
            
            
            //--------------------------Aca incluimos los INSERT-----------------//
@@ -51,6 +59,7 @@ public class New13 {
                     + "VALUES (?,?,?,?,?)";
            
            //esto funciona con el driver, primero el javaClient
+           //ALUMNO
            PreparedStatement psAlumno = con.prepareStatement(sqlAlumno);
            for (Alumno alumno : alumnos) {
                 psAlumno.setInt(1, alumno.getDni());
@@ -64,6 +73,40 @@ public class New13 {
                     JOptionPane.showMessageDialog(null, "Alumno " + alumno.getApellido()+ " agregado");
                 }
             }
+           
+           String sqlMateria="INSERT INTO `materia`(`nombre`, `año`, `estado`)"
+                    + "VALUES (?,?,?)";
+           PreparedStatement psMateria = con.prepareStatement(sqlMateria);
+           for (Materia materia : materias) {
+                psMateria.setString(1, materia.getNombre());
+                psMateria.setInt(2, materia.getAño());
+                psMateria.setBoolean(3, true);
+                
+                int filas = psMateria.executeUpdate();
+                if(filas>0){
+                    JOptionPane.showMessageDialog(null, "Materia " + materia.getNombre() +" agregado");
+                }
+            }
+           
+           String sqlInscripcion="INSERT INTO `inscripcion`(`nota`, `idAlumno`, `idMateria`)"
+                    + "VALUES (?,?,?)";
+           
+           PreparedStatement psInscripcion = con.prepareStatement(sqlInscripcion);
+           for(Alumno alumno : alumnos){
+               for(Materia materia : materias){
+                   inscripciones.add(new Inscripcion(9, 3, 1));
+                   inscripciones.add(new Inscripcion(7, 3, 2));
+                   inscripciones.add(new Inscripcion(8, 2, 3));
+                   inscripciones.add(new Inscripcion(6, 1, 4));
+               
+                int filas = psMateria.executeUpdate();
+                if(filas>0){
+                    JOptionPane.showMessageDialog(null, "Inscripcion agregada");
+                }
+            }
+           }
+           
+           //Faltan las consultas y desinscribir alumnos
             
         }catch(ClassNotFoundException cnf){
             JOptionPane.showMessageDialog(null, "Error al cargar driver");
